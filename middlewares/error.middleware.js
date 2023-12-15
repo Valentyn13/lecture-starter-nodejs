@@ -1,5 +1,5 @@
 export const errorHandler = async (err, req, res, next) => {
-    res.status(401).json({
+    res.status(400).json({
         message: err
     })
 }

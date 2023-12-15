@@ -28,7 +28,7 @@ export const deletedUserController = (req, res, next) => {
     next()
 }
 
-export const getUserById = (req, res, next) => {
+export const getUserByIdController = (req, res, next) => {
     const id = req.params
     const user = userService.search(id)
     res.locals.queryResult = user

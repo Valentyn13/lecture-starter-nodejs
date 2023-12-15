@@ -59,6 +59,20 @@ const createUserValid = (req, res, next) => {
 
 };
 
+export const isUserExist = (req,res,next) => {
+  try {
+    const id = req.params
+    const user = userService.search(id)
+    if (!user) {
+      throw new Error('User not found')
+    }
+    next()
+  } catch (error) {
+    next(error.message)
+  }
+
+}
+
 const updateUserValid = (req, res, next) => {
   // TODO: Implement validatior for user entity during update
   next();
