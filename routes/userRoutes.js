@@ -11,5 +11,5 @@ const router = Router();
 
 // TODO: Implement route controllers for user
 
-router.post('/',signUpController,responseMiddleware)
+router.post('/',createUserValid, signUpController, responseMiddleware)
 export { router };
