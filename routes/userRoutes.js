@@ -4,11 +4,13 @@ import {
   updateUserValid,
 } from "../middlewares/user.validation.middleware.js";
 import { responseMiddleware } from "../middlewares/response.middleware.js";
-import { signUpController } from "../controllers/user.controllers.js";
+import { deletedUserController, getAllUsersController, getUserById, signUpController, updateUserController } from "../controllers/user.controllers.js";
 
 const router = Router();
 
-// TODO: Implement route controllers for user
-
 router.post('/',createUserValid, signUpController, responseMiddleware)
+router.get('/',getAllUsersController,responseMiddleware)
+router.put('/:id',updateUserController,responseMiddleware)
+router.delete('/:id', deletedUserController,responseMiddleware)
+router.get('/:id',getUserById,responseMiddleware)
 export { router };
