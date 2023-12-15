@@ -15,6 +15,22 @@ class UserService {
     const user = userRepository.create(data)
     return user
   }
+
+  getAllUsers() {
+    const users = userRepository.getAll()
+    return users
+  }
+
+  deleteUser(id){
+    const deletedUser = userRepository.delete(id)
+    return deletedUser
+  }
+
+
+  updateUser(id, dataToUpdate){
+    const patchedUser = userRepository.update(id,dataToUpdate)
+    return patchedUser
+  }
 }
 
 const userService = new UserService();
