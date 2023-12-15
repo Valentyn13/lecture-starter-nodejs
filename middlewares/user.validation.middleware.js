@@ -9,6 +9,18 @@ const userFieldsNumberValid = (obj,shema) => {
   return allKeysExist && noneExtraKeys;
 }
 
+const userFieldsPutValidator = (obj, shema) => {
+  const userKeys = Object.keys(shema)
+  const noneExtraKeys = Object.keys(obj).every((key) => userKeys.includes(key));
+  const atLeastOneKeyExist = userKeys.reduce((acc,curr) =>{
+    if (Object.keys(obj).includes(curr)){
+      acc.exist = true
+    }
+    return acc
+  },{exist: false})
+  return noneExtraKeys && atLeastOneKeyExist.exist
+}
+
 const emailValidator = (email) => {
   const gmailRegex = /^[a-zA-Z0-9._-]+@gmail\.com$/;
   return gmailRegex.test(email);
@@ -74,8 +86,15 @@ export const isUserExist = (req,res,next) => {
 }
 
 const updateUserValid = (req, res, next) => {
-  // TODO: Implement validatior for user entity during update
-  next();
+  try {
+    const isBodyValid = userFieldsPutValidator(req.body, USER_BODY)
+    if (!isBodyValid){
+      throw new Error('Invalid body for put request')
+    }
+    next();
+  } catch (error) {
+    next(error.message)
+  }
 };
 
 export { createUserValid, updateUserValid };

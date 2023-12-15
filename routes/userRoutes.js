@@ -11,7 +11,7 @@ const router = Router();
 
 router.post('/',createUserValid, signUpController, responseMiddleware)
 router.get('/',getAllUsersController, responseMiddleware)
-router.put('/:id',isUserExist, updateUserController, responseMiddleware)
+router.put('/:id',isUserExist, updateUserValid, updateUserController, responseMiddleware)
 router.delete('/:id',isUserExist, deletedUserController, responseMiddleware)
 router.get('/:id',isUserExist, getUserByIdController, responseMiddleware)
 
