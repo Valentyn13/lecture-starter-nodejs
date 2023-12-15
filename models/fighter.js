@@ -1,4 +1,4 @@
-const FIGHTER = {
+export const FIGHTER = {
   id: "",
   name: "",
   health: 100,
@@ -6,4 +6,9 @@ const FIGHTER = {
   defense: 1, // 1 to 10
 };
 
-export { FIGHTER };
+export const FIGHTER_BODY = {
+  name: "",
+  health: 100,
+  power: 0,
+  defense: 1,
+}
