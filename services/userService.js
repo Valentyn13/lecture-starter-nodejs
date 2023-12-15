@@ -10,6 +10,11 @@ class UserService {
     }
     return item;
   }
+
+  createUser(data) {
+    const user = userRepository.create(data)
+    return user
+  }
 }
 
 const userService = new UserService();
