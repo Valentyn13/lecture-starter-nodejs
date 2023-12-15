@@ -1,7 +1,10 @@
 import { fighterRepository } from "../repositories/fighterRepository.js";
 
 class FighterService {
-  // TODO: Implement methods to work with fighters
+  getAllFighters () {
+    const fighters = fighterRepository.getAll()
+    return fighters
+  }
 }
 
 const fighterService = new FighterService();
