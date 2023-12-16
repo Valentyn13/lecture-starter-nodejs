@@ -1,4 +1,5 @@
 import { FIGHTER_BODY } from "../models/fighter.js";
+import CustomError from "../services/errorService.js";
 import { fighterService } from "../services/fighterService.js";
 
 const fighterFieldsNamesValidator = (obj,shema) => {
@@ -31,11 +32,11 @@ const createFighterValid = (req, res, next) => {
     const isHealtValid = healthValidator(fighterBody.health)
 
     if(isFighterExist){
-      throw new Error('Fighter with this name already exist in database')
+      throw new CustomError(400,'Fighter with this name already exist in database')
     }
 
     if(!isFieldsValid||!isPowerValid||!isDefenseValid||!isHealtValid){
-      throw new Error('Fighter properties are invalid')
+      throw new CustomError(400, 'Fighter properties are invalid')
     }
     next();
   } catch (error) {

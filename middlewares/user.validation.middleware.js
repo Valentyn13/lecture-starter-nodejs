@@ -1,5 +1,6 @@
 import { USER_BODY } from "../models/user.js";
 import { userService } from "../services/userService.js";
+import CustomError from "../services/errorService.js";
 
 const userFieldsNumberValid = (obj,shema) => {
   const userKeys = Object.keys(shema);
@@ -53,7 +54,7 @@ const createUserValid = (req, res, next) => {
     const isPasswordValid = passwordValidator(userDetail.password)
 
     if (isUserExist){
-      throw new Error('User already exist in database')
+      throw new CustomError(400,'User already exist in databse')
     } 
 
     if (
@@ -61,12 +62,12 @@ const createUserValid = (req, res, next) => {
        !isEmailValid||
        !isPhoneValid||
        !isPasswordValid) {
-        throw new Error('User body validation error')
+        throw new CustomError(400,'Invalid user data')
        }
 
     next(); 
   } catch (error) {
-    next(error.message)
+    next(error)
   }
 
 };
@@ -76,11 +77,11 @@ export const isUserExist = (req,res,next) => {
     const id = req.params
     const user = userService.search(id)
     if (!user) {
-      throw new Error('User not found')
+      throw new CustomError(404,'User not found')
     }
     next()
   } catch (error) {
-    next(error.message)
+    next(error)
   }
 
 }
@@ -89,11 +90,11 @@ const updateUserValid = (req, res, next) => {
   try {
     const isBodyValid = userFieldsPutValidator(req.body, USER_BODY)
     if (!isBodyValid){
-      throw new Error('Invalid body for put request')
+      throw new CustomError(400,'Invalid user data for updating')
     }
     next();
   } catch (error) {
-    next(error.message)
+    next(error)
   }
 };
 
