@@ -83,7 +83,6 @@ export const isUserExist = (req,res,next) => {
   } catch (error) {
     next(error)
   }
-
 }
 
 const updateUserValid = (req, res, next) => {

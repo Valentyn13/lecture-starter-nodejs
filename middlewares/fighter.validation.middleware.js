@@ -45,9 +45,41 @@ const createFighterValid = (req, res, next) => {
   
 };
 
+const fighterFieldsPutValidator = (obj, shema) => {
+  const fighterKeys = Object.keys(shema)
+  const noneExtraKeys = Object.keys(obj).every((key) => fighterKeys.includes(key));
+  const atLeastOneKeyExist = fighterKeys.reduce((acc,curr) =>{
+    if (Object.keys(obj).includes(curr)){
+      acc.exist = true
+    }
+    return acc
+  },{exist: false})
+  return noneExtraKeys && atLeastOneKeyExist.exist
+}
+
+export const isFighterExist = (req,res,next) => {
+  try {
+    const id = req.params
+    const user = fighterService.search(id)
+    if (!user) {
+      throw new CustomError(404,'Fighter not found')
+    }
+    next()
+  } catch (error) {
+    next(error)
+  }
+}
+
 const updateFighterValid = (req, res, next) => {
-  // TODO: Implement validatior for FIGHTER entity during update
-  next();
+  try {
+    const isBodyValid = fighterFieldsPutValidator(req.body, FIGHTER_BODY)
+    if (!isBodyValid){
+      throw new CustomError(400,'Invalid fighter data for updating')
+    }
+    next();
+  } catch (error) {
+    next(error)
+  }
 };
 
 export { createFighterValid, updateFighterValid };
