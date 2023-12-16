@@ -18,6 +18,16 @@ class FighterService {
     }
     return item;
   }
+
+  deleteFighter(id){
+    const deletedFighter = fighterRepository.delete(id)
+    return deletedFighter
+  }
+
+  updateFighter(id, dataToUpdate) {
+    const updatedFighter = fighterRepository.update(id,dataToUpdate)
+    return updatedFighter
+  }
 }
 
 const fighterService = new FighterService();
