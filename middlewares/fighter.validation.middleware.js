@@ -3,8 +3,6 @@ import CustomError from "../services/errorService.js";
 import { dbAdapter } from "../config/db.js";
 import { fighterService } from "../services/fighterService.js";
 
-const DATABASE_PATH = '../config/database.json'
-
 const fighterFieldsNamesValidator = (obj,shema) => {
   const fighterKeys = Object.keys(shema);
   const allKeysExist = fighterKeys.every((key) => obj.hasOwnProperty(key));
@@ -19,29 +17,18 @@ const healthValidator = (health) => health >=80 && health <=120 ? true : false
 
 
 const insensetiveFighterSearch = (name) => {
-  try{
     const fighters = dbAdapter.get('fighters').value()
     const isFighterExist = fighters.reduce((acc, curr)=>{
       if(curr.name.toLowerCase() === name.toLowerCase()) acc.exist = true
       return acc
     },{exist:false})
     return isFighterExist.exist
-  } catch (error){
-    console.log(error)
-  }
-
 }
 
-const isFighterInDatabase = (name) => {
- const isFighterExist = fighterService.search({'name':name})
- if (isFighterExist) return true
- return false
-}
 const createFighterValid = (req, res, next) => {
   try {
     req.body.health = 100
     const fighterBody = req.body
-    //const isFighterExist = isFighterInDatabase(fighterBody.name)
     const isFighterExist = insensetiveFighterSearch(fighterBody.name)
     const isFieldsValid = fighterFieldsNamesValidator(req.body,FIGHTER_BODY)
     const isPowerValid = powerValidator(fighterBody.power)
