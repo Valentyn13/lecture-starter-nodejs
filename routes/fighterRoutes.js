@@ -9,10 +9,10 @@ import { createFighterController, deletedFighterController, getAllFightersContro
 
 const router = Router();
 
-router.get('/',getAllFightersController)
-router.get('/:id',isFighterExist,getFighterByIdController)
-router.post('/',createFighterValid,createFighterController)
-router.put('/:id',isFighterExist,updateFighterValid,updateFighterController)
-router.delete('/:id',isFighterExist,deletedFighterController)
+router.get('/',getAllFightersController, responseMiddleware)
+router.get('/:id',isFighterExist,getFighterByIdController,responseMiddleware)
+router.post('/',createFighterValid,createFighterController,responseMiddleware)
+router.put('/:id',isFighterExist,updateFighterValid,updateFighterController,responseMiddleware)
+router.delete('/:id',isFighterExist,deletedFighterController,responseMiddleware)
 
 export { router };
