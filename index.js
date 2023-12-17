@@ -3,6 +3,7 @@ import express from "express";
 import { initRoutes } from "./routes/routes.js";
 import "./config/db.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
+import { responseMiddleware } from "./middlewares/response.middleware.js";
 
 const app = express();
 
@@ -12,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 
 initRoutes(app);
 app.use(errorHandler)
-
+app.use(responseMiddleware)
 app.use("/", express.static("./client/build"));
 
 const port = 3080;

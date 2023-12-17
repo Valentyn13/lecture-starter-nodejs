@@ -23,7 +23,6 @@ const createFighterValid = (req, res, next) => {
   try {
     req.body.health = 100
     const fighterBody = req.body
-    console.log(fighterBody)
     const isFighterExist = isFighterInDatabase(fighterBody.name)
 
     const isFieldsValid = fighterFieldsNamesValidator(req.body,FIGHTER_BODY)
