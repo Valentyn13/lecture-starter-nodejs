@@ -2,6 +2,8 @@ import { FIGHTER_BODY } from "../models/fighter.js";
 import CustomError from "../services/errorService.js";
 import { fighterService } from "../services/fighterService.js";
 
+const DATABASE_PATH = '../config/database.json'
+
 const fighterFieldsNamesValidator = (obj,shema) => {
   const fighterKeys = Object.keys(shema);
   const allKeysExist = fighterKeys.every((key) => obj.hasOwnProperty(key));
@@ -14,6 +16,17 @@ const powerValidator = (power) => power >= 1 && power <= 100 ? true : false
 const defenseValidator = (defense) => defense >= 1 && defense <=10 ? true : false
 const healthValidator = (health) => health >=80 && health <=120 ? true : false
 
+
+const insensetiveFighterSearch = async(name,path) => {
+  const response = await fetch(path)
+  const data = await response.json()
+  const fighters = data.fighters
+  const isFighterExist = fighters.reduce((acc, curr)=>{
+    if(curr.name.toLowerCase() === name.toLowerCase()) acc.exist = true
+  },{exist:false})
+  return isFighterExist.exist
+}
+
 const isFighterInDatabase = (name) => {
  const isFighterExist = fighterService.search({'name':name})
  if (isFighterExist) return true
@@ -23,8 +36,8 @@ const createFighterValid = (req, res, next) => {
   try {
     req.body.health = 100
     const fighterBody = req.body
-    const isFighterExist = isFighterInDatabase(fighterBody.name)
-
+    //const isFighterExist = isFighterInDatabase(fighterBody.name)
+    const isFighterExist = insensetiveFighterSearch(fighterBody.name,DATABASE_PATH)
     const isFieldsValid = fighterFieldsNamesValidator(req.body,FIGHTER_BODY)
     const isPowerValid = powerValidator(fighterBody.power)
     const isDefenseValid = defenseValidator(fighterBody.defense)
