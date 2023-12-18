@@ -88,6 +88,10 @@ export const isUserExist = (req,res,next) => {
 const updateUserValid = (req, res, next) => {
   try {
     const isBodyValid = userFieldsPutValidator(req.body, USER_BODY)
+    if(req.body.email){
+      const isEmailValid = emailValidator(req.body.email)
+      if(!isEmailValid) throw new CustomError(400,'Invalid email')
+    }
     if (!isBodyValid){
       throw new CustomError(400,'Invalid user data for updating')
     }

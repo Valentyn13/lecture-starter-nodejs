@@ -11,10 +11,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 initRoutes(app);
-app.use(errorHandler)
+
 
 app.use("/", express.static("./client/build"));
-
+app.use(errorHandler)
 const port = 3080;
 app.listen(port, () => {});
 

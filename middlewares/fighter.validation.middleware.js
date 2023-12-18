@@ -27,7 +27,7 @@ const insensetiveFighterSearch = (name) => {
 
 const createFighterValid = (req, res, next) => {
   try {
-    req.body.health = 100
+    if(!req.body.health)req.body.health = 100
     const fighterBody = req.body
     const isFighterExist = insensetiveFighterSearch(fighterBody.name)
     const isFieldsValid = fighterFieldsNamesValidator(req.body,FIGHTER_BODY)
@@ -44,7 +44,7 @@ const createFighterValid = (req, res, next) => {
     }
     next();
   } catch (error) {
-    next(error.message)
+    next(error)
   }
   
 };
@@ -80,6 +80,23 @@ const updateFighterValid = (req, res, next) => {
     if (!isBodyValid){
       throw new CustomError(400,'Invalid fighter data for updating')
     }
+    if(req.body.name){
+      const isFighterExist = insensetiveFighterSearch(req.body.name)
+      if(isFighterExist) throw new CustomError(400,'Fighter with this name exis in database')
+    }
+    if(req.body.power){
+      const isPowerValid = powerValidator(req.body.power)
+      if(!isPowerValid) throw new CustomError(400,'Invalid power data')
+    }
+    if(req.body.defense){
+      const isDefenseValid = defenseValidator(req.body.defense)
+      if(!isDefenseValid) throw new CustomError('Invalid defense data')
+    }
+    if(req.body.health){
+      const isHealtValid = healthValidator(req.body.health)
+      if(!isHealtValid) throw new CustomError(400, 'Invalid healt number')
+    }
+    
     next();
   } catch (error) {
     next(error)
